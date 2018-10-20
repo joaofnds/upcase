@@ -8,6 +8,6 @@ feature 'User sees own todos' do
 
     sign_in_as "someone@examle.com"
 
-    expect(page).not_to have_css '.todos li', text: title
+    expect(page).not_to display_todo title
   end
 end

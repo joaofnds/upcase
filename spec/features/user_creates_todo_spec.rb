@@ -6,12 +6,8 @@ feature 'Use creates todo' do
 
   scenario 'successfully' do
     sign_in
+		create_todo(title)
 
-    click_on 'Add todo'
-
-    fill_in 'Title', with: title
-    click_on 'Create todo'
-
-    expect(page).to have_css 'ul.todos li', text: title
+    expect(page).to display_todo title
   end
 end
