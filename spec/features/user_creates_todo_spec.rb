@@ -5,7 +5,7 @@ feature 'Use creates todo' do
   let(:title) { 'buy milk' }
 
   scenario 'successfully' do
-    visit root_path
+    sign_in
 
     click_on 'Add todo'
 
