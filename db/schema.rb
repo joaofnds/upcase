@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_002954) do
+ActiveRecord::Schema.define(version: 2018_10_24_015332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2018_10_22_002954) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "shout_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shout_id"], name: "index_likes_on_shout_id"
+    t.index ["user_id", "shout_id"], name: "index_likes_on_user_id_and_shout_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "photo_shouts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -49,6 +59,14 @@ ActiveRecord::Schema.define(version: 2018_10_22_002954) do
     t.string "content_id", null: false
     t.index ["content_type", "content_id"], name: "index_shouts_on_content_type_and_content_id"
     t.index ["user_id"], name: "index_shouts_on_user_id"
+  end
+
+  create_table "shouts_users", id: false, force: :cascade do |t|
+    t.bigint "shout_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shout_id", "user_id"], name: "index_shouts_users_on_shout_id_and_user_id", unique: true
   end
 
   create_table "text_shouts", force: :cascade do |t|
@@ -70,5 +88,7 @@ ActiveRecord::Schema.define(version: 2018_10_22_002954) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "likes", "shouts"
+  add_foreign_key "likes", "users"
   add_foreign_key "shouts", "users"
 end
