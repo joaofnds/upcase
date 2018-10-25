@@ -10,8 +10,18 @@ class User < ApplicationRecord
   has_many :liked_shouts,
            through: :likes,
            source: :shout
-  has_many :following_relationships, foreign_key: :follower_id
-  has_many :followeds, through: :following_relationships
+
+  has_many :followeds_relationship,
+           foreign_key: :follower_id,
+           class_name: "FollowingRelationship",
+           dependent: :destroy
+  has_many :followeds, through: :followeds_relationship
+
+  has_many :followers_relationships,
+           foreign_key: :followed_id,
+           class_name: "FollowingRelationship",
+           dependent: :destroy
+  has_many :followers, through: :followers_relationships
 
   def like(shout)
     liked_shouts << shout
