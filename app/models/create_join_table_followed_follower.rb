@@ -1,0 +1,2 @@
+class CreateJoinTableFollowedFollower < ApplicationRecord
+end
