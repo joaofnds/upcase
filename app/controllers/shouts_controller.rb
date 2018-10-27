@@ -15,22 +15,11 @@ class ShoutsController < ApplicationController
   end
 
   def content_from_params
-    case params[:shout][:content_type]
-    when "TextShout" then TextShout.new(text_shout_content_params)
-    when "PhotoShout" then PhotoShout.new(photo_shout_content_params)
-    end
-  end
-
-  def text_shout_content_params
-    content_params.permit(:body)
-  end
-
-  def photo_shout_content_params
-    content_params.permit(:image)
+    params[:content_type].new(content_params)
   end
 
   def content_params
-    params.require(:shout).require(:content)
+    params.require(:shout).require(:content).permit!
   end
 
   def redirect_options_for(shout)
