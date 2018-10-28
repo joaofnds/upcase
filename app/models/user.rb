@@ -23,10 +23,6 @@ class User < ApplicationRecord
            dependent: :destroy
   has_many :followers, through: :followers_relationships
 
-  def timeline_shouts
-    Shout.where(user_id: followed_ids + [id])
-  end
-
   def like(shout)
     liked_shouts << shout
   end
